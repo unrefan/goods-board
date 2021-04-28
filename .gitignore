@@ -1,0 +1,10 @@
+node_modules
+public
+.env
+npm-debug.log
+yarn-error.log
+.DS_Store
+
+# IDEs and editors
+.idea
+.vscode

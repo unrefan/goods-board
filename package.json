@@ -1,0 +1,29 @@
+{
+  "name": "gds-board",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "nodemon",
+    "lint": "eslint ./src",
+    "test": "jest --testTimeout=10000"
+  },
+  "type": "module",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-async-errors": "^3.1.1",
+    "helmet": "^4.5.0",
+    "morgan": "^1.10.0",
+    "passport": "^0.4.1",
+    "passport-local": "^1.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^7.25.0",
+    "find": "^0.3.0",
+    "fs-extra": "^9.1.0",
+    "git-cz": "^4.7.6",
+    "jsonfile": "^6.1.0",
+    "nodemon": "^2.0.7"
+  }
+}
