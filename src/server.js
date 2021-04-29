@@ -2,6 +2,7 @@ import morgan from 'morgan';
 import helmet from 'helmet';
 import express from 'express';
 import cookieParser from 'cookie-parser';
+import routes from './routes/index.js';
 
 const app = express();
 
@@ -17,9 +18,7 @@ if (process.env.NODE_ENV === 'production') {
 	app.use(helmet());
 }
 
-app.get('/ping', (req, res) => {
-	res.send('pong');
-});
+routes(app);
 
 app.use((err, req, res) => {
 	console.error(err.message, err);

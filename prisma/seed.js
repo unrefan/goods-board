@@ -1,8 +1,6 @@
-import client from '@prisma/client';
 import {hash} from '../src/utils/hash.js';
 import {isDevelopment} from '../src/utils/env';
-
-const prisma = new client.PrismaClient();
+import prisma from '../src/config/database';
 
 async function main() {
 	if (isDevelopment()) {
