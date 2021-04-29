@@ -21,7 +21,7 @@ if (process.env.NODE_ENV === 'production') {
 routes(app);
 
 app.use((err, req, res) => {
-	console.error(err.message, err);
+	console.error(err.message);
 	return res.status(400).json({
 		error: err.message,
 	});
