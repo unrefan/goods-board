@@ -1,8 +1,8 @@
-import UserRouter from '../controllers/Users.js';
-import HintMiddleware from '../middlewares/HintMiddleware.js';
+import express from 'express';
+import userRoutes from './users.js';
 
-export default function (app) {
-  	app.use('/api/users/:user', HintMiddleware);
+const router = express.Router();
 
-	app.use('/api', UserRouter);
-}
+router.use('/users', userRoutes);
+
+export default router;

@@ -1,28 +1,19 @@
 {
     "env": {
         "node": true,
-        "es2020": true
+        "es2021": true
     },
-    "extends": "eslint:recommended",
+    "extends": ["eslint:recommended", "plugin:node/recommended"],
     "parserOptions": {
-        "ecmaVersion": 11,
+        "ecmaVersion": 12,
         "sourceType": "module"
     },
     "rules": {
-        "indent": [
-            "error",
-            "tab"
-        ],
+        "indent": ["error", 2],
         "linebreak-style": 0,
         "no-useless-catch": 0,
         "no-mixed-spaces-and-tabs": 0,
-        "quotes": [
-            "error",
-            "single"
-        ],
-        "semi": [
-            "error",
-            "always"
-        ]
+        "quotes": ["error", "single"],
+        "semi": ["error", "always"]
     }
 }

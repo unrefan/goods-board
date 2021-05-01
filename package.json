@@ -7,6 +7,9 @@
     "test": "jest --testTimeout=10000"
   },
   "type": "module",
+  "engines": {
+    "node": ">=14.9.0"
+  },
   "dependencies": {
     "@prisma/client": "2.21.2",
     "@quixo3/prisma-session-store": "^3.0.1",
@@ -23,6 +26,7 @@
   },
   "devDependencies": {
     "eslint": "^7.25.0",
+    "eslint-plugin-node": "^11.1.0",
     "find": "^0.3.0",
     "fs-extra": "^9.1.0",
     "git-cz": "^4.7.6",
