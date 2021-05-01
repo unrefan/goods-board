@@ -11,6 +11,7 @@ app.use(auth.session());
 
 app.use('/api', routes);
 
+app.use(errors.validationError);
 app.use(errors.internalError);
 
 const server = app.listen(app.get('port'), app.get('host'), () => {
