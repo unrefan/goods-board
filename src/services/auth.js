@@ -18,11 +18,11 @@ passport.use(new Strategy({usernameField: 'email'},
     UserRepository.findByEmail(email)
 	  .then(user => {
 	    if (!user) {
-		  done(null, false, { message: 'Requested user dont exists.' });
+		  return done(null, false, { message: 'Requested user dont exists.' });
         }
 	    
         if (compare(password, user.password)) {
-		  done(null, user);
+		  return done(null, user);
         }
 
         done(null, false, { message: 'Incorrect password.' });

@@ -6,8 +6,8 @@ import * as errors from './middlewares/errors.js';
 import routes from './routes/index.js';
 
 app.use(sessions);
-app.use(auth.initialize());
-app.use(auth.session());
+app.use(auth.initialize({}));
+app.use(auth.session({}));
 
 app.use('/api', routes);
 
