@@ -9,8 +9,7 @@ export const login = (req, res, next) => {
     if (!user) {
       return res.status(401).json(flash);
     }
-
-    res.status(200).json({});
+    req.login(user, () => res.json({}));
   })(req, res);
 };
 
