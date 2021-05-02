@@ -1,28 +1,28 @@
 import {hash} from '../src/utils/hash.js';
-import {isDevelopment} from '../src/utils/env';
-import prisma from '../src/config/database';
+import {isDevelopment} from '../src/utils/env.js';
+import prisma from '../src/config/database.js';
 
 async function main() {
-	if (isDevelopment()) {
-	  const local = await prisma.user.upsert({
-			where: { email: 'dev@local.com' },
-			update: {},
-			create: {
-			  email: 'dev@local.com',
-			  name: 'Developer',
-			  password: hash('password'),
-			},
-	  });
+  if (isDevelopment()) {
+    const local = await prisma.user.upsert({
+      where: { email: 'dev@local.com' },
+      update: {},
+      create: {
+        email: 'dev@local.com',
+        name: 'Developer',
+        password: hash('password'),
+      },
+    });
 
-	  console.log({ local });
-	}
+    console.log({ local });
+  }
 }
 
 main()
-	.catch(e => {
-		console.error(e);
-		process.exit(1);
-	})
-	.finally(async () => {
-		await prisma.$disconnect();
-	});
+  .catch(e => {
+    console.error(e);
+    process.exit(1);
+  })
+  .finally(async () => {
+    await prisma.$disconnect();
+  });
