@@ -14,15 +14,7 @@ export const index = async (req, res, next) => {
 	    [req.query.orderBy || 'createdAt']: req.query.orderType || 'desc'
 	  },
 	  include: {
-	    user: {
-	      select: {
-	        name: true,
-            phone: true,
-            email: true,
-            createdAt: true,
-            updatedAt: true,
-		  }
-        },
+	    user: true,
 	  }
     });
 

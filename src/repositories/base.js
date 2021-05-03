@@ -28,12 +28,12 @@ export class BaseRepository {
   async all(query = {}) {
     return await this.getClient().findMany(query);
   }
-  async create(query = {}) {
-    return await this.getClient().create(query);
+  async create(data = {}, query = {}) {
+    return await this.getClient().create({...query, data: data});
   }
-  async update(id, query = {}) {
+  async update(id, data = {}, query = {}) {
     const {where = {}, ...rest} = query;
-    return await this.getClient().update({...rest, where: {...where, id: id}});
+    return await this.getClient().update({...rest, data: data, where: {...where, id: id}});
   }
   async delete(id) {
     return await this.getClient().delete({where: {id: id}});

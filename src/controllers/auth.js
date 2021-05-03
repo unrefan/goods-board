@@ -24,13 +24,17 @@ export const me = (req, res, next) => {
   res.json(UserResource.wrap(req.user));
 };
 
-export const update = (req, res, next) => {
-  UserRepository.update(req.user.id, {
-    name: req.body.name || req.user.name,
-    phone: req.body.phone || req.user.phone,
-    email: req.body.email || req.user.email,
-    password: req.body.currentPassword ? req.body.newPassword : undefined,
-  })
-    .then(user => res.status(202).json(UserResource.wrap(user)))
-    .catch(e => next(e));
+export const update = async (req, res, next) => {
+  try {
+    const user = await UserRepository.update(req.user.id, {
+      name: req.body.name || req.user.name,
+      phone: req.body.phone || req.user.phone,
+      email: req.body.email || req.user.email,
+      password: req.body.currentPassword ? req.body.newPassword : undefined,
+    });
+
+    res.status(202).json(UserResource.wrap(user));
+  } catch (e) {
+    next(e); 
+  }
 };

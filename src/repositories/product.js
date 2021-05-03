@@ -14,21 +14,15 @@ export class ProductRepository extends BaseRepository {
   }
   async create(data = {}, query = {}) {
     return super.create({
-      ...query,
-      data: {
-        ...data,
-        price: serializePrice(data.price)
-      }
-    });
+      ...data,
+      price: serializePrice(data.price)
+    }, query);
   }
   async update(id, data = {}, query = {}) {
     return super.update(id, {
-      ...query,
-      data: {
-        ...data,
-        price: serializePrice(data.price)
-      }
-    });
+      ...data,
+      price: serializePrice(data.price)
+    }, query);
   }
 }
 

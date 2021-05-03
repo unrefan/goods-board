@@ -6,13 +6,19 @@ export class UserRepository extends BaseRepository {
     super('user');
   }
   async findByEmail(email) {
-    return await this.findBy(email, 'email');
+    return await this.getClient().findFirst({where: {email}});
   }
-  async create(data = {}) {
-    return await super.create({...data, password: hash(data.password)});
+  async create(data = {}, query = {}) {
+    return await super.create({
+      ...data,
+      password: hash(data.password)
+    }, query);
   }
-  async update(id, data = {}) {
-    return await super.update(id, {...data, password: hash(data.password)});
+  async update(id, data = {}, query = {}) {
+    return await super.update(id, {
+      ...data,
+      password: hash(data.password)
+    }, query);
   }
 }
 
