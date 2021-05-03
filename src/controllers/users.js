@@ -1,34 +1,39 @@
 import UserRepository from '../repositories/user.js';
 import UserResource from '../resources/UserResource.js';
+import {searchIn} from '../utils/prizma.js';
 
 export const index = async (req, res, next) => {
-  const users = await UserRepository.all();
+  const {name, email} = req.query;
+
+  const users = await UserRepository.all({
+    where: {
+      ...searchIn({name, email})
+    }
+  });
 
   res.json(UserResource.collection(users));
 };
 
 export const show = (req, res, next) => {
-  res.json(req.user);
+  res.json(UserResource.wrap(req.user));
 };
 
 export const store = async (req, res, next) => {
-  console.log(req);
-  res.status(201).json(await UserRepository.create({
+  UserRepository.create({
+    phone: req.body.phone,
     name: req.body.name,
     email: req.body.email,
     password: req.body.password,
-  }));
-};
-
-export const update = async (req, res, next) => {
-  res.status(202).json(await UserRepository.update(req.user.id, {
-    name: req.body.name,
-    email: req.body.email,
-  }));
+  })
+    .then(user => {
+      req.login(user);
+      res.status(201).json({});
+    })
+    .catch(e => next(e));
 };
 
 export const destroy = async (req, res, next) => {
   await UserRepository.delete(req.user.id);
 
-  res.status(204).json({message: 'deleted'});
+  res.status(204).json({});
 };
