@@ -8,8 +8,11 @@ export class UserRepository extends BaseRepository {
   async findByEmail(email) {
     return await this.findBy(email, 'email');
   }
-  async create(payload = {}) {
-    return await super.create({...payload, password: hash(payload.password)});
+  async create(data = {}) {
+    return await super.create({...data, password: hash(data.password)});
+  }
+  async update(id, data = {}) {
+    return await super.update(id, {...data, password: hash(data.password)});
   }
 }
 

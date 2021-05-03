@@ -9,11 +9,11 @@ export class BaseRepository {
   getClient() {
     return prisma[this.model];
   }
-  async findBy(value, key = 'id') {
-    return await this.getClient().findFirst({where: {[key]: value}});
+  async findBy(value, key = 'id', select = {}) {
+    return await this.getClient().findFirst({where: {[key]: value}}, select);
   }
-  async findById(id) {
-    const instance = await this.getClient().findFirst({where: {id: Number(id)}});
+  async findById(id, select = {}) {
+    const instance = await this.getClient().findFirst({where: {id: Number(id)}}, select);
 
     if (instance === null) {
       throw new NotFound(`${this.model} [${id}] not found.`);
@@ -21,23 +21,24 @@ export class BaseRepository {
 
     return instance;
   }
-  async all() {
-    return await this.getClient().findMany();
+  async all(where = {}, select = {}) {
+    return await this.getClient().findMany(where, select);
   }
-  async create(payload = {}) {
-    return await this.getClient().create({data: payload});
+  async create(data = {}, select = {}) {
+    return await this.getClient().create({data}, select);
   }
-  async update(id, payload = {}) {
-    return await this.getClient().create({where: {id: id}, data: payload});
+  async update(id, data = {}, select = {}) {
+    return await this.getClient().update({where: {id: id}, data}, select);
   }
   async delete(id) {
     return await this.getClient().delete({where: {id: id}});
   }
-  async paginate(page = 1, perPage = this.perPage) {
+  async paginate(page = 1, where = {}, select = {}, perPage = this.perPage) {
     return await this.getClient().findMany({
       skip: (page - 1) * perPage,
       take: perPage,
-    });
+      where,
+    }, select);
   }
 }
 

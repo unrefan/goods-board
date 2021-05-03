@@ -1,4 +1,6 @@
 import passport from 'passport';
+import UserResource from '../resources/UserResource.js';
+import UserRepository from '../repositories/user.js';
 
 export const login = (req, res, next) => {
   passport.authenticate('local', (error, user, flash) => {
@@ -18,3 +20,17 @@ export const logout = (req, res, next) => {
   res.status(200).json({});
 };
 
+export const me = (req, res, next) => {
+  res.json(UserResource.wrap(req.user));
+};
+
+export const update = (req, res, next) => {
+  UserRepository.update(req.user.id, {
+    name: req.body.name,
+    phone: req.body.phone,
+    email: req.body.email,
+    password: req.body.password,
+  })
+    .then(user => res.status(202).json(UserResource.wrap(user)))
+    .catch(e => next(e));
+};

@@ -1,9 +1,10 @@
 import UserRepository from '../repositories/user.js';
+import UserResource from '../resources/UserResource.js';
 
 export const index = async (req, res, next) => {
   const users = await UserRepository.all();
 
-  res.json(users);
+  res.json(UserResource.collection(users));
 };
 
 export const show = (req, res, next) => {
