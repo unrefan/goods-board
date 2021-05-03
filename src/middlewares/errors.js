@@ -13,7 +13,7 @@ export const validationError = (err, req, res, next) => {
 
 export const internalError = (err, req, res, next) => {
   console.error(err); // todo logger
-  res.status(err.code || 500).json({
+  res.status(err.status || 500).json({
     error: {
 	  code: err.code || 500,
 	  message: err.message,
