@@ -8,7 +8,6 @@ export default async (req, res, next) => {
     req.mapped = {
       [resource]: await BaseRepository(resource).findById(param)
     };
-
     next();
   } catch (e) {
     next(e);
