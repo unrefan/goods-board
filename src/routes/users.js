@@ -15,7 +15,6 @@ router
   .route('/:user')
   .all(isAuthenticated, TypeHint)
   .get(UserController.show)
-  .put(UserRequest.update, UserController.update)
   .delete(UserController.destroy);
 
 export default router;

@@ -26,10 +26,10 @@ export const me = (req, res, next) => {
 
 export const update = (req, res, next) => {
   UserRepository.update(req.user.id, {
-    name: req.body.name,
-    phone: req.body.phone,
-    email: req.body.email,
-    password: req.body.password,
+    name: req.body.name || req.user.name,
+    phone: req.body.phone || req.user.phone,
+    email: req.body.email || req.user.email,
+    password: req.body.currentPassword ? req.body.newPassword : undefined,
   })
     .then(user => res.status(202).json(UserResource.wrap(user)))
     .catch(e => next(e));
