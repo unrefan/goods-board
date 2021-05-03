@@ -2,13 +2,13 @@ import ProductRepository, {deserializePrice} from '../repositories/product.js';
 import ProductResource from '../resources/ProductResource.js';
 
 export const index = async (req, res, next) => {
+  const {title, userId} = req.query;
+
   try {
     const products = await ProductRepository.all({
 	  where: {
-        AND: [
-		  {title: {contains: req.query.title}},
-		  {userId: req.query.userId},
-        ]
+        title: {contains: title},
+        userId: userId ? Number(userId) : undefined,
 	  },
 	  orderBy: {
 	    [req.query.orderBy || 'createdAt']: req.query.orderType || 'desc'
@@ -45,7 +45,7 @@ export const create = async (req, res, next) => {
       include: {
         user: true
       }
-	});
+    });
 	  
     res.status(201).json(ProductResource.wrap(product));
   } catch (e) {
@@ -61,7 +61,7 @@ export const update = async (req, res, next) => {
 	  }, {
 	    include: {
 		  user: true
-		}
+      }
 	  });
 
 	  res.status(202).json(ProductResource.wrap(updated));
