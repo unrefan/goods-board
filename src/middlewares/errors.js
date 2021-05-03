@@ -15,7 +15,7 @@ export const internalError = (err, req, res, next) => {
   console.error(err); // todo logger
   res.status(err.status || 500).json({
     error: {
-	  code: err.code || 500,
+	  code: err.status || err.code || 500,
 	  message: err.message,
     },
   });

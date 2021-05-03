@@ -19,7 +19,7 @@ export const index = async (req, res, next) => {
 };
 
 export const show = (req, res, next) => {
-  res.json(UserResource.wrap(req.mapped.user));
+  res.json(UserResource.wrap(req.user));
 };
 
 export const store = async (req, res, next) => {
@@ -42,7 +42,7 @@ export const store = async (req, res, next) => {
 
 export const destroy = async (req, res, next) => {
   try {
-    await UserRepository.delete(req.mapped.user.id);
+    await UserRepository.delete(req.user.id);
 
     res.status(204).json({});
   } catch (e) {

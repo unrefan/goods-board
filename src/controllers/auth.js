@@ -21,15 +21,15 @@ export const logout = (req, res, next) => {
 };
 
 export const me = (req, res, next) => {
-  res.json(UserResource.wrap(req.user));
+  res.json(UserResource.wrap(req.auth));
 };
 
 export const update = async (req, res, next) => {
   try {
-    const user = await UserRepository.update(req.user.id, {
-      name: req.body.name || req.user.name,
-      phone: req.body.phone || req.user.phone,
-      email: req.body.email || req.user.email,
+    const user = await UserRepository.update(req.auth.id, {
+      name: req.body.name || req.auth.name,
+      phone: req.body.phone || req.auth.phone,
+      email: req.body.email || req.auth.email,
       password: req.body.currentPassword ? req.body.newPassword : undefined,
     });
 

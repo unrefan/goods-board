@@ -5,9 +5,7 @@ export default async (req, res, next) => {
   const param = req.params[resource];
 
   try {
-    req.mapped = {
-      [resource]: await BaseRepository(resource).findById(param)
-    };
+    req[resource] = await BaseRepository(resource).findById(param);
     next();
   } catch (e) {
     next(e);

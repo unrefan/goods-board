@@ -3,6 +3,7 @@ import TypeHint from '../middlewares/TypeHint.js';
 import isAuthenticated from '../middlewares/isAuthenticated.js';
 import * as ProductController from '../controllers/products.js';
 import * as ProductRequest from '../requests/products.js';
+import isMyProduct from '../middlewares/isMyProduct.js';
 
 const router = express.Router();
 
@@ -14,9 +15,9 @@ router
 
 router
   .route('/:product')
-  .all(TypeHint, isAuthenticated)
+  .all(isAuthenticated, TypeHint)
   .get(ProductController.show)
-  .put(ProductRequest.update, ProductController.update)
-  .delete(ProductController.destroy);
+  .put(isMyProduct, ProductRequest.update, ProductController.update)
+  .delete(isMyProduct, ProductController.destroy);
 
 export default router;

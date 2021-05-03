@@ -27,7 +27,7 @@ export const index = async (req, res, next) => {
 
 export const show = async (req, res, next) => {
   try {
-    const productResource = new ProductResource(req.mapped.product);
+    const productResource = new ProductResource(req.product);
 
     res.json(await productResource.loadUser());
   } catch (error) {
@@ -55,9 +55,9 @@ export const create = async (req, res, next) => {
 
 export const update = async (req, res, next) => {
   try {
-	  const updated = await ProductRepository.update(req.mapped.product.id, {
+	  const updated = await ProductRepository.update(req.product.id, {
 	    title: req.body.title,
-	    price: req.body.price === undefined ? deserializePrice(req.mapped.product.price) : req.body.price,
+	    price: req.body.price === undefined ? deserializePrice(req.product.price) : req.body.price,
 	  }, {
 	    include: {
 		  user: true
@@ -72,7 +72,7 @@ export const update = async (req, res, next) => {
 
 export const destroy = async (req, res, next) => {
   try {
-    await ProductRepository.delete(req.mapped.product.id);
+    await ProductRepository.delete(req.product.id);
 
     res.status(204).json({message: 'deleted.'});
   } catch (error) {
