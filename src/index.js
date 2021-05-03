@@ -4,11 +4,17 @@ import sessions from './config/sessions.js';
 import auth from './services/auth.js';
 import * as errors from './middlewares/errors.js';
 import routes from './routes/index.js';
+import swagger from './config/swagger';
 
 app.use(sessions);
 app.use(auth.initialize({userProperty: 'auth'}));
 app.use(auth.session({}));
 
+// todo swagger ui
+// todo route jsdoc
+app.get('/docs/api', (req, res) => {
+  res.json(swagger);
+});
 app.use('/api', routes);
 
 app.use(errors.validationError);
