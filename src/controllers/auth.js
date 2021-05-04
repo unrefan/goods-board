@@ -1,6 +1,7 @@
 import passport from 'passport';
 import UserResource from '../resources/UserResource.js';
 import UserRepository from '../repositories/user.js';
+import {generate} from '../utils/jsonWebToken.js';
 
 export const login = (req, res, next) => {
   passport.authenticate('local', (error, user, flash) => {
@@ -12,6 +13,26 @@ export const login = (req, res, next) => {
       return res.status(401).json(flash);
     }
     req.login(user, () => res.json({}));
+  })(req, res);
+};
+
+export const loginJWT = (req, res, next) => {
+  passport.authenticate('local', {session: false}, (error, user, flash) => {
+    if (error) {
+      return next(error);
+    }
+
+    if (!user) {
+      return res.status(401).json(flash);
+    }
+
+    req.login(user, {session: false}, (error) => {
+      if (error) return next(error);
+
+      res.json({
+        token: generate(user),
+      });
+    });
   })(req, res);
 };
 
@@ -36,5 +57,23 @@ export const update = async (req, res, next) => {
     res.status(202).json(UserResource.wrap(user));
   } catch (e) {
     next(e); 
+  }
+};
+
+export const register = async (req, res, next) => {
+  try {
+    const user = await UserRepository.create({
+      phone: req.body.phone,
+      name: req.body.name,
+      email: req.body.email,
+      password: req.body.password,
+    });
+
+    req.login(user, (error) => {
+      if (error) return next(error);
+      res.status(201).json({});
+    });
+  } catch (e) {
+    next(e);
   }
 };

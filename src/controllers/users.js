@@ -1,6 +1,7 @@
 import UserRepository from '../repositories/user.js';
 import UserResource from '../resources/UserResource.js';
 import {searchIn} from '../utils/prizma.js';
+import {generate} from '../utils/jsonWebToken.js';
 
 export const index = async (req, res, next) => {
   try {
@@ -31,9 +32,11 @@ export const store = async (req, res, next) => {
       password: req.body.password,
     });
 
-    req.login(user, (error) => {
+    req.login(user, {session: false}, (error) => {
       if (error) return next(error);
-      res.status(201).json({});
+      res.status(201).json({
+        token: generate(user),
+      });
     });
   } catch (e) {
     next(e);

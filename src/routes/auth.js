@@ -130,8 +130,10 @@ const router = express.Router();
  * security:
  *   - apiKey: []
  * */
-router.post('/sessions', auth.login);
+router.post('/sessions', auth.loginJWT);
 router.get('/logout', auth.logout);
+router.post('/login', auth.login);
+router.post('/register', auth.register);
 router.get('/me', isAuthenticated, auth.me);
 router.put('/me', isAuthenticated, updateCurrent, auth.update);
 
