@@ -12,6 +12,8 @@ const router = new express.Router();
  * /users:
  *   get:
  *     summary: Retrieve a list of users
+ *     security:
+ *       - cookieAuth: []
  *     produces:
  *       - application/json
  *     parameters:
@@ -84,6 +86,8 @@ const router = new express.Router();
  * /users/:id:
  *   get:
  *     summary: Retrieve a single user by ID
+ *     security:
+ *       - cookieAuth: []
  *     produces:
  *       - application/json
  *     parameters:
@@ -102,6 +106,8 @@ const router = new express.Router();
  *
  *   delete:
  *     summary: Delete a user by ID
+ *     security:
+ *       - cookieAuth: []
  *     produces:
  *       - application/json
  *     parameters:

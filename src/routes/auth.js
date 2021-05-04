@@ -5,6 +5,131 @@ import {updateCurrent} from '../requests/users.js';
 
 const router = express.Router();
 
+/**
+ * @swagger
+ * /sessions:
+ *   post:
+ *     summary: Authorize an user to application via session
+ *     parameters:
+ *       - in: query
+ *         name: email
+ *         required: true
+ *         schema:
+ *           type: string
+ *       - in: query
+ *         name: password
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *
+ *       422:
+ *         description: Unprocessable entity
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   field:
+ *                     type: string
+ *                     example: email
+ *                   message:
+ *                     type: string
+ *                     example: Requested user does not exists.
+ * /logout:
+ *   get:
+ *     summary: Log out user
+ *     responses:
+ *       200:
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *
+ * /me:
+ *   get:
+ *     summary: Get current logged user profile
+ *     security:
+ *       - cookieAuth: []
+ *     responses:
+ *       200:
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/User'
+ *       401:
+ *         $ref: '#/components/responses/401Unauthorized'
+ *
+ *   put:
+ *     summary: Update current logged user profile
+ *     security:
+ *       - cookieAuth: []
+ *     requestBody:
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 nullable: true
+ *               email:
+ *                 type: string
+ *                 nullable: true
+ *               phone:
+ *                 type: string
+ *                 nullable: true
+ *               currentPassword:
+ *                 type: string
+ *                 nullable: true
+ *               newPassword:
+ *                 type: string
+ *                 nullable: true
+ *     responses:
+ *       202:
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/User'
+ *       422:
+ *         description: Unprocessable entity
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   field:
+ *                     type: string
+ *                     example: name
+ *                   message:
+ *                     type: string
+ *                     example: The name must be at least 3 characters.
+ *       401:
+ *         $ref: '#/components/responses/401Unauthorized'
+ *
+ * components:
+ *   securitySchemes:
+ *     cookieAuth:
+ *       type: apiKey
+ *       in: cookie
+ *       name: connect.sid
+ *
+ * security:
+ *   - apiKey: []
+ * */
 router.post('/sessions', auth.login);
 router.get('/logout', auth.logout);
 router.get('/me', isAuthenticated, auth.me);

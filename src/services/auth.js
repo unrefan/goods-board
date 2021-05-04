@@ -2,6 +2,7 @@ import passport from 'passport';
 import Strategy from 'passport-local';
 import {compare} from '../utils/hash.js';
 import UserRepository from '../repositories/user.js';
+import ValidationError from '../exceptions/ValidationError.js';
 
 passport.serializeUser(function(user, done) {
   done(null, user.id);
@@ -18,14 +19,22 @@ passport.use(new Strategy({usernameField: 'email'},
     UserRepository.findByEmail(email)
 	  .then(user => {
 	    if (!user) {
-		  return done(null, false, { message: 'Requested user dont exists.' });
+		  return done(new ValidationError({
+            errors: {
+			  email: ['Requested user does not exists.']
+			}
+		  }));
         }
 	    
         if (compare(password, user.password)) {
 		  return done(null, user);
         }
 
-        done(null, false, { message: 'Incorrect password.' });
+        done(new ValidationError({
+		  errors: {
+			passport: ['Incorrect password.']
+		  }
+        }));
 	  })
 	  .catch(e => done(e));
   }

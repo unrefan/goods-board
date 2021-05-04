@@ -14,6 +14,8 @@ const router = express.Router();
  * /items:
  *   get:
  *     summary: Retrieve a list of product
+ *     security:
+ *       - cookieAuth: []
  *     produces:
  *       - application/json
  *     parameters:
@@ -57,6 +59,8 @@ const router = express.Router();
  *
  *   post:
  *     summary: Create new product
+ *     security:
+ *       - cookieAuth: []
  *     produces:
  *       - application/json
  *     requestBody:
@@ -95,6 +99,8 @@ const router = express.Router();
  * /items/:id:
  *   get:
  *     summary: Retrieve a single product by ID
+ *     security:
+ *       - cookieAuth: []
  *     produces:
  *       - application/json
  *     parameters:
@@ -113,6 +119,8 @@ const router = express.Router();
  *
  *   put:
  *     summary: Update requested product
+ *     security:
+ *       - cookieAuth: []
  *     produces:
  *       - application/json
  *     requestBody:
@@ -151,6 +159,8 @@ const router = express.Router();
  *
  *   delete:
  *     summary: Delete a product by ID
+ *     security:
+ *       - cookieAuth: []
  *     produces:
  *       - application/json
  *     parameters:
@@ -172,6 +182,8 @@ const router = express.Router();
  * /items/:id/image:
  *   post:
  *     summary: Store product image
+ *     security:
+ *       - cookieAuth: []
  *     produces:
  *       - application/json
  *     parameters:
@@ -203,6 +215,8 @@ const router = express.Router();
  *
  *   delete:
  *     summary: Delete product image
+ *     security:
+ *       - cookieAuth: []
  *     produces:
  *       - application/json
  *     parameters:
@@ -224,6 +238,8 @@ const router = express.Router();
  * /items/uploads/:filename:
  *   get:
  *     summary: Download image by filename
+ *     security:
+ *       - cookieAuth: []
  *     produces:
  *       - image/*
  *     parameters:
