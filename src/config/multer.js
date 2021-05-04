@@ -11,5 +11,5 @@ export default multer({
 	  cb(null, `${name}-${uniqueSuffix}.${extension}`);
     }
   }),
-  fileSize: 1024 * 1024 * 10
+  limits: { fileSize: 1024 * 1024 * 10 }
 });

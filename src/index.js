@@ -15,6 +15,7 @@ app.use('/docs/api', swaggerUI.serve, async (req, res, next) => swaggerUI.setup(
 app.use('/api', routes);
 
 app.use(errors.validationError);
+app.use(errors.multerError);
 app.use(errors.internalError);
 
 const server = app.listen(app.get('port'), app.get('host'), () => {
