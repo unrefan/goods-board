@@ -1,4 +1,4 @@
-import Validator from 'validatorjs';
+import Validator from '../config/validations.js';
 import ValidationError from '../exceptions/ValidationError.js';
 
 export default (rules, messages = {}) => (req, res, next) => {
