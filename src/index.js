@@ -4,17 +4,14 @@ import sessions from './config/sessions.js';
 import auth from './services/auth.js';
 import * as errors from './middlewares/errors.js';
 import routes from './routes/index.js';
-import swagger from './config/swagger';
+import swagger from './config/swagger.js';
+import swaggerUI from 'swagger-ui-express';
 
 app.use(sessions);
 app.use(auth.initialize({userProperty: 'auth'}));
 app.use(auth.session({}));
 
-// todo swagger ui
-// todo route jsdoc
-app.get('/docs/api', (req, res) => {
-  res.json(swagger);
-});
+app.use('/docs/api', swaggerUI.serve, async (req, res, next) => swaggerUI.setup(await swagger)(req, res, next));
 app.use('/api', routes);
 
 app.use(errors.validationError);
