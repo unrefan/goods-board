@@ -12,8 +12,6 @@ const router = new express.Router();
  * /users:
  *   get:
  *     summary: Retrieve a list of users
- *     security:
- *       - cookieAuth: []
  *     produces:
  *       - application/json
  *     parameters:
@@ -38,11 +36,9 @@ const router = new express.Router();
  *               type: array
  *               items:
  *                 $ref: '#/components/schemas/User'
- *       401:
- *         $ref: '#/components/responses/401Unauthorized'
  *
  *   post:
- *     summary: Create new user and login in app
+ *     summary: Create new user, generate jwt token and login in app
  *     produces:
  *       - application/json
  *     requestBody:
@@ -70,7 +66,11 @@ const router = new express.Router();
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/User'
+ *               type: object
+ *               properties:
+ *                 token:
+ *                   type: string
+ *                   example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTMsIm5hbWUiOiJBbnRvbm92aWNoIiwicGhvbmUiOiIrMzgwOTg3NjU0MzIxIiwiZW1haWwiOiJhbnRvbm92aWNoMjMzNEBhbnRvbi5jb20iLCJwYXNzd29yZCI6IiQyYSQxMCQvd0drVHNPQ3dJVGZUaDcxbmZ0RTBPZHVWWmx2TGRHZzh6Lkx6WnpBMnh1WTBuU2hqVFIyMiIsImNyZWF0ZWRBdCI6IjIwMjEtMDUtMDRUMjA6MTM6MDIuOTc3WiIsInVwZGF0ZWRBdCI6IjIwMjEtMDUtMDRUMjA6MTM6MDIuOTc5WiIsImlhdCI6MTYyMDE1OTE4Mn0.BVYH0jXcaZd9EVW7lEsDapHx461l6Rrz_h4YCnzfQ2E
  *       422:
  *         description: Unprocessable entity
  *         content:
@@ -80,14 +80,10 @@ const router = new express.Router();
  *               items:
  *                 type: object
  *               example: [{"field": "name", "message": "The name must be at least 3 characters."}]
- *       401:
- *         $ref: '#/components/responses/401Unauthorized'
  *
  * /users/:id:
  *   get:
  *     summary: Retrieve a single user by ID
- *     security:
- *       - cookieAuth: []
  *     produces:
  *       - application/json
  *     parameters:
@@ -101,28 +97,6 @@ const router = new express.Router();
  *               $ref: '#/components/schemas/User'
  *       404:
  *         $ref: '#/components/responses/404NotFoundUser'
- *       401:
- *         $ref: '#/components/responses/401Unauthorized'
- *
- *   delete:
- *     summary: Delete a user by ID
- *     security:
- *       - cookieAuth: []
- *     produces:
- *       - application/json
- *     parameters:
- *       - $ref: '#/components/parameters/queryID'
- *     responses:
- *       204:
- *         description: No content
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *       404:
- *         $ref: '#/components/responses/404NotFoundUser'
- *       401:
- *         $ref: '#/components/responses/401Unauthorized'
  *
  * components:
  *   parameters:
@@ -179,13 +153,12 @@ const router = new express.Router();
  */
 router
   .route('/')
-  .get(isAuthenticated, UserController.index)
+  .get(UserController.index)
   .post(UserRequest.create, UserController.store);
 
 router
   .route('/:user')
-  .all(isAuthenticated, TypeHint)
-  .get(UserController.show)
-  .delete(UserController.destroy);
+  .all(TypeHint)
+  .get(UserController.show);
 
 export default router;

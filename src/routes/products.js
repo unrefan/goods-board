@@ -14,8 +14,6 @@ const router = express.Router();
  * /items:
  *   get:
  *     summary: Retrieve a list of product
- *     security:
- *       - cookieAuth: []
  *     produces:
  *       - application/json
  *     parameters:
@@ -54,13 +52,12 @@ const router = express.Router();
  *               type: array
  *               items:
  *                 $ref: '#/components/schemas/Product'
- *       401:
- *         $ref: '#/components/responses/401Unauthorized'
  *
  *   post:
  *     summary: Create new product
  *     security:
  *       - cookieAuth: []
+ *       - bearerAuth: []
  *     produces:
  *       - application/json
  *     requestBody:
@@ -99,8 +96,6 @@ const router = express.Router();
  * /items/:id:
  *   get:
  *     summary: Retrieve a single product by ID
- *     security:
- *       - cookieAuth: []
  *     produces:
  *       - application/json
  *     parameters:
@@ -114,13 +109,12 @@ const router = express.Router();
  *               $ref: '#/components/schemas/Product'
  *       404:
  *         $ref: '#/components/responses/404NotFoundProduct'
- *       401:
- *         $ref: '#/components/responses/401Unauthorized'
  *
  *   put:
  *     summary: Update requested product
  *     security:
  *       - cookieAuth: []
+ *       - bearerAuth: []
  *     produces:
  *       - application/json
  *     requestBody:
@@ -161,6 +155,7 @@ const router = express.Router();
  *     summary: Delete a product by ID
  *     security:
  *       - cookieAuth: []
+ *       - bearerAuth: []
  *     produces:
  *       - application/json
  *     parameters:
@@ -184,6 +179,7 @@ const router = express.Router();
  *     summary: Store product image
  *     security:
  *       - cookieAuth: []
+ *       - bearerAuth: []
  *     produces:
  *       - application/json
  *     parameters:
@@ -217,6 +213,7 @@ const router = express.Router();
  *     summary: Delete product image
  *     security:
  *       - cookieAuth: []
+ *       - bearerAuth: []
  *     produces:
  *       - application/json
  *     parameters:
@@ -238,8 +235,6 @@ const router = express.Router();
  * /items/uploads/:filename:
  *   get:
  *     summary: Download image by filename
- *     security:
- *       - cookieAuth: []
  *     produces:
  *       - image/*
  *     parameters:
@@ -316,16 +311,15 @@ const router = express.Router();
  */
 router
   .route('/')
-  .all(isAuthenticated)
   .get(ProductController.index)
-  .post(ProductRequest.create, ProductController.create);
+  .post(isAuthenticated, ProductRequest.create, ProductController.create);
 
 router
   .route('/:product')
-  .all(isAuthenticated, TypeHint)
+  .all(TypeHint)
   .get(ProductController.show)
-  .put(isMyProduct, ProductRequest.update, ProductController.update)
-  .delete(isMyProduct, ProductController.destroy);
+  .put(isAuthenticated, isMyProduct, ProductRequest.update, ProductController.update)
+  .delete(isAuthenticated, isMyProduct, ProductController.destroy);
 
 router
   .route('/:product/image')
@@ -335,7 +329,7 @@ router
 
 router
   .route('/uploads/:file')
-  .get(isAuthenticated, (req, res) => {
+  .get((req, res) => {
     res.download(`./public/uploads/${req.params.file}`);
   });
 
