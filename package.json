@@ -4,7 +4,8 @@
   "scripts": {
     "dev": "nodemon",
     "lint": "eslint ./src",
-    "test": "jest --testTimeout=10000"
+    "test": "jest --testTimeout=10000",
+    "swagger:generate": "node ./generate_api_docs.js"
   },
   "type": "module",
   "engines": {
