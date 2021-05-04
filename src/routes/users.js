@@ -44,7 +44,7 @@ const router = new express.Router();
  *     produces:
  *       - application/json
  *     requestBody:
- *       required: false
+ *       required: true
  *       content:
  *         application/json:
  *           schema:
@@ -52,14 +52,16 @@ const router = new express.Router();
  *             properties:
  *               name:
  *                 type: string
+ *                 required: true
  *               email:
  *                 type: string
+ *                 required: true
  *               phone:
  *                 type: string
- *               currentPassword:
+ *                 nullable: true
+ *               password:
  *                 type: string
- *               newPassword:
- *                 type: string
+ *                 required: true
  *     responses:
  *       201:
  *         description: Created
@@ -88,7 +90,7 @@ const router = new express.Router();
  *       - $ref: '#/components/parameters/queryID'
  *     responses:
  *       200:
- *         description: Created
+ *         description: OK
  *         content:
  *           application/json:
  *             schema:
@@ -121,8 +123,12 @@ const router = new express.Router();
  *     queryID:
  *       in: path
  *       name: id
+ *       schema:
+ *         type: integer
+ *         minimum: 1
  *       description: The resource's ID
  *       example: 1
+ *       required: true
  *
  *   responses:
  *     401Unauthorized:
