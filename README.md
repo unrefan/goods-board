@@ -11,7 +11,7 @@ yarn install
 2. Copy `.env` - `cp .env.example .env`
 3. Generate app key - `node app_key.js`
 4. Set up all necessary env variables.
-5. Migrate database - `npx prisma migrate`
+5. Migrate database - `npx prisma migrate deploy`
 
 Done 🚀. Now you can run the app. 
 ```bash
@@ -25,4 +25,9 @@ run `yarn swagger:generate` to generate `swagger.json` file
 #### To seed database with local user execute
 ```bash
 npx prisma db seed --preview-feature
+```
+
+#### To reset database and seed
+```bash
+npx prisma migrate reset
 ```

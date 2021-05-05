@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
 
 const result = dotenv.config({
-  path: '../.env',
+  path: '.env',
 });
 
 if (result.error) {
